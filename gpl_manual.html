@@ -1,0 +1,13738 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+
+
+
+
+
+  
+  
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1"><title>gpl manual</title></head><body><big><span style="color: rgb(255, 0, 0);"></span>The Game Programming
+Language (GPL) v. 2.0<br>
+
+
+
+
+
+
+
+
+
+Tyson Henry<br>
+
+
+
+
+
+
+
+
+
+<span style="color: rgb(0, 0, 0);">Revised 8/21/16 (revision history at
+end of document)</span><br style="color: rgb(0, 0, 0);">
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+</big>
+<hr style="width: 100%; height: 2px;"><big><span style="font-weight: bold;">Overview</span><br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+</big>
+<div style="margin-left: 40px;">The Game Programming Language (GPL) is
+an object-based language for specifying simple computer games such as
+those found arcade games of the late 1970's and early 1980's. &nbsp; It
+was created as a semester long project for an undergraduate compiler
+course. &nbsp;My goal was to create a project that demonstrated the
+wide applicability of compiler construction tools. &nbsp;The language
+is simple to learn and surprisingly expressive. &nbsp;A typical
+computer
+science undergraduate can learn it in about an hour and be creating
+significant programs within several hours.<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+To keep the implementation simple enough to be completed in a single
+semester several simplifying design decisions were made. &nbsp;For
+example, all variables are global and there are no functions.<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<hr style="width: 100%; height: 2px;"><big><span style="font-weight: bold;">Running the gpl interpreter</span><br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+</big>
+<div style="margin-left: 40px;">The gpl interpreter is a stand alone
+program.&nbsp; It does not have to be installed like many windows
+programs.&nbsp; The only way to
+run it is from the command line.<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+In linux: OpenGL and GLUT must be installed.&nbsp; OpenGL comes with
+most flavors of linux.&nbsp; The GLUT
+library is distributed with many flavors of linux but may not be
+installed automatically.&nbsp; You run the gpl interpreter
+from the command line.<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+In OSX: OpenGL and GLUT come with OSX.&nbsp; You run the gpl
+interpreter from the command line.<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+In windows:&nbsp; the cygwin Unix emulator (or some other Unix
+emulator), OpenGL, and GLUT
+must be installed.&nbsp; You run the gpl interpreter from the cygwin
+command prompt.<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+From the command line you run the gpl interpreter as follows<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">$ gpl filename.gpl<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+Where filename.gpl is a text file that contains a gpl program.&nbsp; If
+you don't specify a filename or the specified file cannot be opened,
+an error
+message is written to standard error and the program exits.<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+The command line argument -seed allows users to specify a seed for the
+random number generator.&nbsp; If a seed is not given, the clock is
+used.&nbsp; Specifying a seed makes it easier to debug programs that
+use random numbers.&nbsp; When you specify a seed, every time you run
+the program with that seed the same random numbers will be
+generated.&nbsp; The -seed # must be the first command line argument:<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">$ gpl -seed 42 filename.gpl<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<hr style="width: 100%; height: 2px;"><big><span style="font-weight: bold;">The Parts of a gpl Program</span><br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+</big>
+<div style="margin-left: 40px;">gpl programs have two distinct parts
+that must be in the following order:<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;"><span style="font-weight: bold;">declarations</span><br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;"><br>
+
+
+
+
+
+
+
+
+
+All declarations must be before the code blocks.&nbsp; The types of
+declarations are:<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 80px;">variables<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">types are:&nbsp; int, double, string,
+rectangle, triangle, circle, textbox, and pixmap<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 80px;"><br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 80px;">animation block forward declarations<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">animation blocks must be declared
+before they can be referenced<br>
+
+
+
+
+
+
+
+
+
+forward block declarations provide that mechanism<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;"><br>
+
+
+
+
+
+
+
+
+
+Variables and block forward declarations can be in
+any order as long as they are before all code blocks.<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<span style="font-weight: bold;">code blocks</span><br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">initialization block (each gpl program
+can have zero or many)<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">An initialization block is a series of
+statements that is executed right before program control is passed to
+the main event loop (i.e. after input has been parsed and after the
+window has been created).<br>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+animation blocks (each gpl program can have zero or many)<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 80px;">Animation blocks are a series of
+statements.&nbsp; They are like functions
+that are automatically executed periodically.<br>
+
+
+
+
+
+
+
+
+
+The statements in an animation block can change global variables and
+the properties of
+rectangles, triangles,
+circles, textboxes, and pixmaps.&nbsp; For example, by changing the x,y
+of an
+object, it will move around the window.<br>
+
+
+
+
+
+
+
+
+
+The frequency that animation blocks are executed is determined by the
+reserved variable animation_speed (see next section).<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">event handler blocks (each gpl program
+can have zero or many)
+</div>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 80px;">Event handlers are like callback
+functions.<br>
+
+
+
+
+
+
+
+
+
+When a user event occurs (such as a left arrow being pressed) the
+statements in the associated event handler are executed.<br>
+<br>
+</div></div>
+<div style="margin-left: 40px;">
+<div style="margin-left: 40px;">termination blocks (each gpl program can have zero or many)<br>
+<div style="margin-left: 40px;">A termination block is a series of
+statements that is executed right before program exits.&nbsp; They are
+useful for debugging, printing debug messages, and printing termination
+informations (such as a high score).<br>
+</div>
+</div>
+</div>
+</div><big><br>
+
+
+
+
+
+
+
+
+
+</big>
+<hr style="width: 100%; height: 2px;"><big style="font-weight: bold;">Variable
+Declarations</big><br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+All variables must be declared in the variable declaration
+section.&nbsp; Variables cannot be declared in code blocks.&nbsp; In
+other
+words,
+there are no "local" variables.&nbsp; All variables are global.&nbsp;
+This make the implementation of the symbol table simple.<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<span style="font-weight: bold;">Basic Variable Types</span><br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+
+
+
+
+
+
+
+
+
+  <tbody>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Type<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Example w/o
+initialization<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Example with
+initialization<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int a;<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int a = 42;<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">double<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">double x;<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">double x = 1.42;<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">string<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">string s;<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">string s = "hello world";<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+Note: strings are delimited with double quotes, but the double quotes
+are not part of the string. &nbsp;Strings can contain any printable
+character (e.g. no line feed) except double quotes.<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<span style="font-weight: bold;">Reserved Variables<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+</span>
+<div style="margin-left: 40px;">If any of the following variables are
+declared, their values will be used to set up the window and the
+animation speed.&nbsp; Note: If these variables are declared with a
+different type then listed below, an error will be issued.&nbsp; The
+value of these
+variables
+is only used at game start up time.&nbsp; Changes to these variables
+during run time will
+not affect the window.<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+If a reserved variable is not declared, the default value is used to
+initialize the window.<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+
+
+
+
+
+
+
+
+
+  <tbody>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Type<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Name<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Description<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Default Value<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">window_x<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">X Placement of the game window
+on the desktop (top left is x=0)<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">200<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">window_y<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">Y Placement of the game window
+on the desktop (top left is y = 0)<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">200<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">window_width<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">Width of the game window<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">500<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">window_height<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">Height of the game window<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">500<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">string<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">window_title<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">Title of the game window
+(appears in window's title bar)<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">gpl window<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">double<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">window_red<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">The red component of the
+window's background color (0.0 is no red, 1.0 is full red)*</td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">1.0<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">double<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">window_green<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">The green component of the
+window's background color.</td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">1.0<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">double<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">window_blue<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">The blue component of the
+window's background color.</td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">1.0<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">animation_speed<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">Speed of the animation (1 is
+slowest, 100 is fastest).&nbsp; Values are restricted to the range
+1-100.&nbsp; Speed is not linear (e.g. 100 is many times faster
+than 50).&nbsp; Speed is very machine dependent.<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">88<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+*See Colors section below for more about colors.
+</div>
+
+
+
+
+
+
+
+
+
+<span style="font-weight: bold;"><br>
+
+
+
+
+
+
+
+
+
+Game Objects: </span>game objects are
+the graphical components of games<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;"><br>
+
+
+
+
+
+
+
+
+
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+
+
+
+
+
+
+
+
+
+  <tbody>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Type<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Example w/o
+parameters<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Example with
+parameters<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">circle<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">circle c();<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">circle c(x = 10, y = 20, radius
+= 50, animation_block = ball_animation);<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">rectangle<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">rectangle r();<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">rectangle r(x = 10, y = 10, h =
+10, w = 10);<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">triangle<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">triangle t();<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">triangle t(x = 100, y = 100,
+size = 50, animation_block = ship_animation);<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">textbox<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">textbox title();<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">textbox title(x = 10, y = 10,
+text = "hello world", size = 0.1);<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">pixmap<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">pixmap photo();<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">pixmap photo(x = 10, y = 10,
+filename = "mountains.bmp");<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<span style="font-weight: bold;">Game Object Attributes</span>:&nbsp;
+All game objects (circle, rectangle, triangle, textbox, pixmap) have
+the
+following attributes<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;"><br>
+
+
+
+
+
+
+
+
+
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+
+
+
+
+
+
+
+
+
+  <tbody>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Name<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Description<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Type<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;"><span style="font-weight: bold;">Default</span><br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">x<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">x location of object in window
+(in pixels)<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">integer<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">0<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">y<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">y location of object in window
+(in pixels)<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">integer<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">0<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">w<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">width of the object (in
+pixels)&nbsp;</td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">integer<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">10<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">h<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">height of the object (in pixels)<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">integer<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">10<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">animation_block<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">name of the animation block
+associated with this game object<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">code block<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">none<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td>visible</td>
+
+
+
+
+
+
+
+
+
+      <td>if visible == 1 object is drawn on screen, otherwise it is
+not drawn (use 0 to indicate not-visible)<br>
+touches and near operators consider objects even if the object's visible is 0<br>
+</td>
+
+
+
+
+
+
+
+
+
+      <td>integer</td>
+
+
+
+
+
+
+
+
+
+      <td>1</td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">red<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">the red component of the
+object's color (0.0 is no red, 1.0 is full red)*<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">double<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">0.5<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">green<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">the green component of the
+object's color (0.0 is no green, 1.0 is full green)<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">double<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">0.5<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">blue<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">the blue component of the
+object's color (0.0 is no blue, 1.0 is full blue)<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">double<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">0.5<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">proximity<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">the distance used by near
+operator to determine if object is "near" to this one<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">4<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+      <td>drawing_order</td>
+
+
+
+
+
+
+
+      <td>controls the oder the object is drawn, objects with high
+drawing_order values are drawn on top of objects with a lower
+drawing_order value</td>
+
+
+
+
+
+
+
+      <td>int</td>
+
+
+
+
+
+
+
+      <td>0</td>
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td>user_int**</td>
+
+
+
+
+
+
+
+
+
+      <td>an integer variable that can be used by the game program
+(very helpful when using arrays of objects)</td>
+
+
+
+
+
+
+
+
+
+      <td>int</td>
+
+
+
+
+
+
+
+
+
+      <td>0</td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td>user_double**</td>
+
+
+
+
+
+
+
+
+
+      <td>a double variable that can be used by the game program</td>
+
+
+
+
+
+
+
+
+
+      <td>double </td>
+
+
+
+
+
+
+
+
+
+      <td>0.0</td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td>user_string**</td>
+
+
+
+
+
+
+
+
+
+      <td>a string variable that can be used by the game program</td>
+
+
+
+
+
+
+
+
+
+      <td>string</td>
+
+
+
+
+
+
+
+
+
+      <td>""</td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+*See Colors section below for more about colors.<br>
+
+
+
+
+
+
+
+
+
+** There are 5 user variables for each type, e.g. user_int,
+user_int2, user_int3, user_int4, user_int5.<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<span style="font-weight: bold;">Circles </span>have the additional
+integer
+attribute radius:<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+
+
+
+
+
+
+
+
+
+  <tbody>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Name<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Description<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Type<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;"><span style="font-weight: bold;">Default</span><br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">radius<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">the radius in pixels of the
+circle (overrides the h &amp; w)<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">integer<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">10<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<span style="font-weight: bold;">Triangles</span> have the additional
+attributes of size, skew, and rotation:<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;"><br>
+
+
+
+
+
+
+
+
+
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+
+
+
+
+
+
+
+
+
+  <tbody>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Name<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Description<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Type<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Default<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">size<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">size of the length of the base
+of the triangle<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">integer<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">10<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">skew<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">the ratio: height/width.&nbsp;
+If equal 1.0, triangle is equilateral, if &gt; 1.0, triangle is taller,
+if &lt;1.0 shorter<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">double<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">1.0<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">rotation<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">degrees rotated
+counter-clockwise around middle of triangle<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">double<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">0.0<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<span style="font-weight: bold;">Rectangles</span> have one additional
+attribute for rotation:<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;"><br>
+
+
+
+
+
+
+
+
+
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+
+
+
+
+
+
+
+
+
+  <tbody>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Name<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Description<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Type<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Default<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">rotation<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">degrees rotated
+counter-clockwise around middle of rectangle<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">double<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">0.0<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<span style="font-weight: bold;">Textboxes</span> have three additional
+attributes: text, size, and
+space:<br>
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;"><br>
+
+
+
+
+
+
+
+
+
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+
+
+
+
+
+
+
+
+
+  <tbody>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Name<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Description<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Type<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Default<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">text<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">text to be displayed by the text
+box<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">string<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">empty string<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">size<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">size of the text (1.0 is about
+100 pixels high, 0.1 is about 10 pixels high)<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">double<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">0.1<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">space<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">number of pixels between letters
+when size == 1.0<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">10<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<span style="font-weight: bold;">Pixmaps</span> have one additional
+attribute for the filename of the pixmap (in .bmp format)<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+
+
+
+
+
+
+
+
+
+  <tbody>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Name<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Description<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Type<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Default<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">filename<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">filename of the file containing
+the pixmap (in .bmp format)<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">string<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">""<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">Pixmaps can only handle bitmaps with 24 bit color and 1 plane.<br>
+<br>
+All <span style="color: fuchsia;">magic pink pixels</span> in the bitmap (color = <span style="color: fuchsia;">FF00FF</span> or <span style="color: fuchsia;">255,0,255<span style="color: black;">, or</span> 1.0, 0.0, 1.0</span>)
+are drawn transparently.&nbsp; You can use this for non-rectangular
+objects that overlap.&nbsp; For example, if you want a stick figure
+drawn on top of another object, use <span style="color: fuchsia;">FF00FF</span> for the background in the .bmp file.&nbsp; When the pixmap is drawn the <span style="color: fuchsia;">magic pink</span> pixels will not be drawn.<br>
+<br>
+</div>
+
+
+<br>
+
+
+
+
+
+
+
+
+
+Attributes are named during game object initialization (e.g. text =
+"hello") and can be specified in any order.&nbsp; Attributes can also
+be changed in any code block (initialization block, animation blocks,
+event handler blocks).<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+Variables and attributes can be initialized using variables and
+expressions.&nbsp; For example:<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">int x_position = 40;<br>
+
+
+
+
+
+
+
+
+
+int y_position = x_position * 4 + 12;<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+circle c1(x = x_position);<br>
+
+
+
+
+
+
+
+
+
+circle c2(x = x_position + 40);<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+textbox(text = 42);<br>
+
+
+
+
+
+
+
+
+
+textbox(text = "hello world");<br>
+
+
+
+
+
+
+
+
+
+textbox(text = 4 + 12 * x_position);<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 80px;">Attributes can be accessed using the
+C/C++ "." notation for members of a class.&nbsp; They can appear on
+both sides of assignment operators, and in expressions.<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">c2.x = 42;<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+i = c2.x<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+if (c2.x == 42)<br>
+
+
+
+
+
+
+
+
+
+{<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+}<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<span style="font-weight: bold;">Drawing Order:<br>
+
+
+
+
+
+
+
+
+
+</span>
+<div style="margin-left: 40px;"><br>
+
+
+
+
+
+
+
+By default, game objects are drawn in the order they are created.&nbsp; For
+example, consider the following code:<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">rectangle r1(x = 100, y = 100, w = 100,
+h = 100);<br>
+
+
+
+
+
+
+
+
+
+rectangle r2(x = 100, y = 100, w = 200, h = 200);<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+Since r1 was declared before r2, every time the objects are drawn, r1
+will be drawn before r2.&nbsp; This means that r2 will be on top of r1.<br>
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+It is possible to change the drawing order of objects. &nbsp;All game
+objects have a drawing_order field (which is 0 by default). &nbsp;This is an integer that
+controls where the game object is placed in the drawing vector.
+&nbsp;Game objects with high drawing_order values will be drawn on top
+of objects with lower drawing_order values.<br>
+<br>
+For example, if you want one object drawn on top of all other objects,
+change its drawing_order field to a value larger than 0 (the default).<br>
+<br>
+</div><span style="font-weight: bold;"><br>
+
+
+
+
+
+
+
+
+
+Limitations:</span>
+<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">The collision detection (the near and
+touches) assumes that
+objects are not rotated.&nbsp; The bounding box of the original
+rectangle or triangle is used for collision detection.&nbsp; If the
+objects are rotated, collisions won't be detected accurately.<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+At some point I will fix this, but don't hold your breath.<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 80px;">
+<div style="margin-left: 40px;"><br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<hr style="width: 100%; height: 2px;"><big style="font-weight: bold;">Arrays:</big><br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">Arrays of all types can be created:<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">int num = 10;<br>
+
+
+
+
+
+
+
+
+
+int numbers[42];<br>
+
+
+
+
+
+
+
+
+
+circle dots[num];<br>
+
+
+
+
+
+
+
+
+
+rectangle blocks[num * 2];<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+The size of the array can be any legal expression that evaluates to an
+integer.<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+You cannot initialized arrays during declaration (this would make the
+interpreter much more complicated).<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+Use one or more initialization blocks to initialize arrays.<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<hr style="width: 100%; height: 2px;"><big style="font-weight: bold;">Animation
+Block Forward
+Declarations</big><br>
+
+
+
+
+
+
+
+
+
+<big></big><br>
+
+
+
+
+
+
+
+
+
+<big></big>
+<div style="margin-left: 40px;">Animation blocks (see below) must be
+declared before they can be referenced in a game object
+declaration.&nbsp; For example:<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+&nbsp;&nbsp;&nbsp; circle earth(x = 100, y = 100, radius = 400,
+animation_block = earth_animation);<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<span style="font-style: italic;">earth_animation</span> is the name of
+the animation block associated with the circle object <span style="font-style: italic;">earth</span>.<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+Since all animation blocks must come after all declarations, a
+forward statement is needed to tell the interpreter that a given
+animation
+block is defined below.&nbsp; The format is as follows:<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">forward
+&lt;block_name&gt;(&lt;parameter_type&gt; &lt;parameter_name&gt;);<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+forward animation earth_animation(circle cur_circle);<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+All animation blocks that are used during variable initialization must
+have a forward declaration.<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+Each animation block has a single game object parameter (e.g. circle,
+triangle, etc.) that acts like a pass-by-reference function argument in
+C/C++.&nbsp; The type of this parameter must match the type of the
+object using the animation block (see next section).<br>
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+It is an error to have an animation block forward without providing the animation block.<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+</div>
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<hr style="width: 100%; height: 2px;"><big style="font-weight: bold;">Initialization Blocks<br>
+
+
+</big>
+<div style="margin-left: 40px;"><br>
+
+
+A gpl program can have zero or more initialization blocks:<br>
+
+
+<br>
+
+
+initialization<br>
+
+
+{<br>
+
+
+<div style="margin-left: 40px;">stmt;<br>
+
+
+stmt;<br>
+
+
+...&nbsp;<br>
+
+
+</div>
+
+
+}<br>
+
+
+<br>
+
+
+The statements in an initialization block are executed right before program control is passed to
+the main event loop (i.e. after input has been parsed and after the
+window has been created).<br>
+
+
+<br>
+
+
+If there is more than one initialization block, they are executed in the order they appear in the .gpl file.<br>
+
+
+<br>
+
+
+Initialization blocks are most often used to initialize arrays of variables.<span style="font-weight: bold;"></span></div>
+
+
+<big style="font-weight: bold;"><br>
+</big>
+<hr style="width: 100%; height: 2px;"><big style="font-weight: bold;">Termination Blocks<br>
+</big>
+<div style="margin-left: 40px;"><br>
+A gpl program can have zero or more termination blocks:<br>
+<br>
+termination<br>
+{<br>
+<div style="margin-left: 40px;">stmt;<br>
+stmt;<br>
+...<br>
+</div>
+}<br>
+<br>
+The statements in a termination block are executed after the user quits
+the program (by typing "q" in the gpl window) or after an exit
+statement is executed.<br>
+<br>
+If there is more than one termination block, they are executed in the order they appear in the .gpl file.<br>
+
+
+
+<br>
+
+
+
+Termination blocks are most often used to print out variables at the end of game execution.<br>
+</div>
+<big style="font-weight: bold;"><br>
+<br>
+
+
+</big>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<hr style="width: 100%; height: 2px;"><big style="font-weight: bold;">Animation
+Blocks</big><br>
+
+
+
+
+
+
+
+
+
+<big></big><br>
+
+
+
+
+
+
+
+
+
+<big></big>
+<div style="margin-left: 40px;">Animation blocks are named blocks of
+statements.&nbsp; They are executed at regular intervals for all
+objects for which they are
+associated.<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+For example, given the following
+declarations:<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">circle c1(animation_block =
+my_animation);<br>
+
+
+
+
+
+
+
+
+
+circle c2(animation_block = my_animation);<br>
+
+
+
+
+
+
+
+
+
+circle c3(animation_block = my_animation);<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+The animation block <span style="font-style: italic;">my_animation</span>
+will be executed at regular intervals for <span style="font-style: italic;">c1</span>, <span style="font-style: italic;">c2</span>, and <span style="font-style: italic;">c3</span> (when an animation block is
+executed for a game object, that object is passed by reference to the
+animation
+block (see below)).<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+Animation blocks have the form:<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">animation my_animation(circle
+cur_circle)<br>
+
+
+
+
+
+
+
+
+
+{<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">statement&nbsp; // statements are
+explained below<br>
+
+
+
+
+
+
+
+
+
+statement<br>
+
+
+
+
+
+
+
+
+
+...<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+}<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+where my_animation is the name of the block (it can be any legal
+identifier).<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">Animation blocks all have a single
+typed parameter which is specified in the block's forward
+statement <span style="font-weight: bold;">and</span> in the animation block header.&nbsp; The parameter can be
+any game object type
+(rectangle, circle, triangle, etc).&nbsp; The name of the parameter can
+be
+any legal identifier.&nbsp; The type of the parameter must match the
+type of the object using this animation block.<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+For example:<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">forward animation my_animation(circle
+cur_circle);<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;"><br>
+
+
+
+
+
+
+
+
+
+In the above example, the parameter
+is of type <span style="font-style: italic;">circle,</span> and the
+parameter name is <span style="font-style: italic;">cur_circle.</span><br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+When an animation block is specified for a game object:<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+&nbsp;&nbsp;&nbsp; circle earth(animation_block = earth_animation);<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+The type of the object (circle in this example) must match the type of
+the animation block's
+parameter specified in the forward statement.<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+The parameter behaves like a local variable inside of the animation
+block (however, since there are only global variables, it really is a global variable).<br>
+
+
+
+
+
+
+
+
+
+<br>For all game objects that have an animation block, the animation
+block
+will be executed at regular intervals if the object's visible field is
+true.&nbsp; The frequency of execution depends on the reserved variable
+animation_speed.&nbsp; Game_objects are animated in the same order in
+which they are drawn: the first objects drawn will be animated before
+the second object draw, and so on.&nbsp; During each animation cycle,
+all animation blocks are run before all objects are draw.<br>
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span style="font-weight: bold;"><br></span></div>
+
+
+
+
+
+
+
+
+
+<hr style="width: 100%; height: 2px;"><big><span style="font-weight: bold;">Event Handler Blocks</span> (also
+called Event Handlers)</big><br>
+
+
+
+
+
+
+
+
+
+<big></big>
+<div style="margin-left: 40px;"><br>
+
+
+
+
+
+
+
+
+
+Event handlers are very similar to event callback functions in VB, C++,
+X-windows, etc.<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+The basic idea is that you specify an event (something the user does,
+like press a key) and associate a block of statements with it.&nbsp;
+Event
+handlers have the following form:<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">on leftarrow<br>
+
+
+
+
+
+
+
+
+
+{<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">statement&nbsp; // statements are
+explained below<br>
+
+
+
+
+
+
+
+
+
+statement<br>
+
+
+
+
+
+
+
+
+
+...<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">}<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+The <span style="font-style: italic;">on</span> is a keyword.&nbsp;
+All event handlers start with <span style="font-style: italic;">on.</span>&nbsp;
+The <span style="font-style: italic;">leftarrow</span> is also a
+keyword that describes a particular event, in this case, the pressing
+of the left arrow key.<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+When the user causes an event (pressing the left arrow key in the above
+example) the statements in the event block associated with that event
+are executed.<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+The following events are supported by gpl Event Handlers:<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+
+
+
+
+
+
+
+
+
+  <tbody>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td>space<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">user presses the space bar<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">leftarrow<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">user presses the left arrow key<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">rightarrow<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">user presses the right arrow key<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">uparrow<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">user presses the up arrow key<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">downarrow<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">user presses the down arrow key<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+      <td style="vertical-align: top;">leftmouse_down<br>
+      </td>
+      <td style="vertical-align: top;">user pressed the left mouse button<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">leftmouse_up<br>
+      </td>
+      <td style="vertical-align: top;">user releases the left mouse button<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">middlemouse_down, middlemouse_up, rightmouse_down, rightmouse_up<br>
+      </td>
+      <td style="vertical-align: top;">works like leftmouse_down and leftmouse_up<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">mouse_move<br>
+      </td>
+      <td style="vertical-align: top;">user moves mouse without holding any buttons down<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">mouse_drag<br>
+      </td>
+      <td style="vertical-align: top;">user moves mouse while holding one button down<br>
+      </td>
+    </tr>
+<tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">f1<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">user pressed the f1 key<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">akey<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">user presses the 'A' or 'a' key<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">skey, dkey, fkey,
+hkey,jkey,kkey, lkey,wkey<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">work like akey<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+There can be any number of event handlers for each event.&nbsp; They
+are executed in the order they are declared.<br>
+<br>
+The mouse events (leftmouse_down, leftmouse_up, ..., mouse_move,
+mouse_drag) set the global variables mouse_x and mouse_y to the current
+x,y location of the mouse.&nbsp; In order to use these values in your
+gpl code (in animation blocks and event handlers) you must declare them
+as integers:<br>
+<br>
+<div style="margin-left: 40px;">int mouse_x;<br>
+int mouse_y;<br>
+</div>
+<br>
+Once they are declared the code that handles the events will update
+them and you can used them like all other variables, for example to
+follow the mouse, you can use:<br>
+<br>
+<div style="margin-left: 40px;">on mouse_move<br>
+{<br>
+&nbsp;&nbsp;&nbsp; ball.x = mouse_x;<br>
+&nbsp;&nbsp;&nbsp; ball.y = mouse_y;<br>
+}<br>
+</div>
+<br>
+Now the ball will be located on top of the mouse (unless a button is
+pressed, mouse_move events only happen when no buttons are
+pressed.&nbsp; <br>
+<br>
+You should not directly set mouse_x and mouse_y, while it won't cause an error, your program probably won't work as expected.<br>
+</div>
+
+
+<big style="font-weight: bold;"><br>
+
+
+</big>
+<hr style="width: 100%; height: 2px;"><big style="font-weight: bold;">Statements</big><br>
+
+
+
+
+
+
+
+
+
+<big></big><br>
+
+
+
+
+
+
+
+
+
+<big></big>
+<div style="margin-left: 40px;">gpl supports five statements:<br>
+
+
+
+
+
+
+
+
+
+<ol>
+
+
+
+
+
+
+
+
+
+  <li>if statement</li>
+
+
+
+
+
+
+
+
+
+  <li>for statement</li>
+
+
+
+
+
+
+
+
+
+  <li>print statement</li>
+
+
+
+
+
+
+
+
+  <li>exit statement</li>
+
+
+
+
+
+
+
+
+
+  <li>assignment statement</li>
+
+
+
+
+
+
+
+
+
+</ol>
+
+
+
+
+
+
+
+
+
+A statement is a single statement.&nbsp; <br>
+
+
+
+
+
+
+
+
+
+A statement_block is a series of statements
+enclosed in { }.<br>
+
+
+
+
+
+
+
+
+
+A statement_or_statement_block is either a single statement or a
+statement_block.<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<span style="font-weight: bold;">if statements</span> have the
+following two forms:<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;"><br>
+
+
+
+
+
+
+
+
+
+if (expression) statement_or_statement_block;<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+if (expression) statement_or_statement_block else
+statement_or_statement_block;<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+the expression must be of type int<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<span style="font-weight: bold;">for statements</span> have the
+following form.&nbsp; These are not as general
+as C/C++ for statements:<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">for (assignment_statement; expression;
+assignment_statement) statement_block;<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+the expression must be of type int<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<span style="font-weight: bold;">print statements</span> have the form:<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">print (expression);<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+Expression is evaluated to a string (which means it can be an int, double, or string)<br>
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+Example: &nbsp;print("value = " + 42 + " x = " + x);<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<span style="font-weight: bold;">exit statements</span> have the form:<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">exit (expression);<br>
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+expression is evaluated to calculate the value passed to the system function exit(exit_status)<br>
+
+
+
+
+
+
+expression must be an int expression<br>
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<span style="font-weight: bold;">assignment statement</span> have the
+form:<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">variable assignment_operator expression;<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+where assignment_operator can be:&nbsp; = &nbsp; +=&nbsp;&nbsp; -=<br>
+<br>
+<table style="text-align: left; width: 820px; height: 116px;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; font-weight: bold;">Assignment Operator<br>
+      </td>
+      <td style="vertical-align: top; font-weight: bold;">Legal Operand Types<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">=<br>
+      </td>
+      <td style="vertical-align: top;">int, double, string, animation_block (LHS must be Game_object member variable (i.e. rect.animation_block =))<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">+=<br>
+      </td>
+      <td style="vertical-align: top;">int, double, string<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">-=<br>
+      </td>
+      <td style="vertical-align: top;">int, double<br>
+      </td>
+    </tr><tr>
+      <td style="vertical-align: top;">++<br>
+      </td>
+      <td style="vertical-align: top;">int<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">--<br>
+      </td>
+      <td style="vertical-align: top;">int<br>
+      </td>
+    </tr>
+
+  </tbody>
+</table>
+<br>
+In C++ <span style="font-weight: bold;">++</span> and <span style="font-weight: bold;">--</span>
+are arithmetic operators.&nbsp; This works because everything in C++ is
+a legal statement.&nbsp; In gpl, they are implemented as pecurliar
+assignment statments.&nbsp; That means you CANNOT use them in
+expressions:<br>
+<br>
+The following are LEGAL uses of ++ and --<br>
+<br>
+&nbsp;&nbsp;&nbsp; for (i = 0; i &lt; 10; i++)<br>
+<br>
+&nbsp;&nbsp;&nbsp; i++;<br>
+&nbsp;&nbsp;&nbsp; i--;<br>
+<br>
+The following are <span style="font-weight: bold;">NOT LEGAL</span> uses of ++ and --<br>
+<br>
+&nbsp;&nbsp;&nbsp; a =&nbsp; i++;<br>
+&nbsp;&nbsp;&nbsp; a = 42 + i--;&nbsp;&nbsp;  <br>
+&nbsp;&nbsp;&nbsp; <br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;"><br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<big></big>
+<hr style="width: 100%; height: 2px;"><big style="font-weight: bold;">Expressions</big><br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;"><span style="font-weight: bold;">Expression
+types:</span><br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">gpl expressions are strongly
+typed (int,double,string). &nbsp;However there are some implicit casts built into gpl.<br>
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+If an arithmetic expression (e.g. "i + x") contains both
+integers and doubles, the type of the expression will be double: integers are automatically cast to doubles (this is
+called an<span style="font-style: italic;"> implicit cast</span>).&nbsp;
+<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+Integers and doubles are also&nbsp;automatically cast to strings.&nbsp; If
+either an integer or a double is in an expression with a string, it is
+converted to a string that represents its value.&nbsp; Consider the
+following code:<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 80px;">int i = 21;<br>
+
+
+
+
+
+
+
+
+
+string s1 = "I am ";<br>
+
+
+
+
+
+
+
+
+
+string s2 = s1 + i;<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">The value of s2 will be the string "I
+am 21"&nbsp; <br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+However, strings are not cast to integers or doubles, and doubles are
+not cast to integers.<br>
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+There is a special form of expressions of type animation_block.
+&nbsp;It can only consist of a variable--it can't contain any
+operators. &nbsp;It is used when initializing or changing the member
+variable animation_block:<br>
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+<div style="margin-left: 40px;">rectangle my_rectangle(animation_block = move); &nbsp;<br>
+
+
+
+
+
+
+my_rectangle.animation_block = bounce; <br>
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+move and bounce are expressions of type animation_block. &nbsp;They each contain a single variable.</div>
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;"><span style="font-weight: bold;">Arithmetic
+operators </span>are similar to C/C++ expressions.&nbsp; They can
+contain "(" and ")" just like C/C++ expressions.<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 80px;"><br>
+
+
+
+
+
+
+
+
+
+<table style="text-align: left; width: 100%; height: 144px;" border="1" cellpadding="2" cellspacing="2">
+
+
+
+
+
+
+
+
+
+  <tbody>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;"><span style="font-weight: bold;">Operator</span><br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Description<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Legal input
+types<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Result type<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">*<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">multiplication<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int, double<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int or double<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">/<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">division<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int, double<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int or double<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">+<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">addition, string concatenation<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int, double, string<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int, double, or string<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">-<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">minus<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int, double<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int or double<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">%<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">modulus <br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">-<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">unary minus<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int, double<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int or double<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">
+<ul>
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <ul>
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </ul>
+
+
+
+
+
+
+
+
+
+</ul>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;"><span style="font-weight: bold;">Logical
+operators</span><br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+
+
+
+
+
+
+
+
+
+  <tbody>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Operator<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Description<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Legal Input
+Types<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Result Type<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">&lt;<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">less than<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int, double, string<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">&gt;<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">greater than<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int, double, string</td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">&lt;=<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">less than or equal<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int, double, string</td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">&gt;=<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">greater than or equal<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int, double, string</td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">==<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">equal<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int, double, string</td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">!=<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">not equal<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int, double, string</td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">!<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">not (unary operator)<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int, double</td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td>&amp;&amp;</td>
+
+
+
+
+
+
+
+
+
+      <td>logical and</td>
+
+
+
+
+
+
+
+
+
+      <td>int, double</td>
+
+
+
+
+
+
+
+
+
+      <td>int</td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td>||</td>
+
+
+
+
+
+
+
+
+
+      <td>logical or</td>
+
+
+
+
+
+
+
+
+
+      <td>int, double</td>
+
+
+
+
+
+
+
+
+
+      <td>int</td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<span style="font-weight: bold;"><br>
+
+
+
+
+
+
+
+
+
+Math
+Operators</span>:&nbsp; There are several unary math operators.&nbsp;
+While these are implemented as unary operators, they look like function
+calls.&nbsp; The format is:<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 80px;">x = sin(y);<br>
+
+
+
+
+
+
+
+
+
+x = 2 * sin(y) + 3 * cos(z);<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+i = random(10);<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+
+
+
+
+
+
+
+
+
+  <tbody>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Operator<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Description<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Legal Input
+Types<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Result Type<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">cos<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">cosine<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int, double<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">double<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">sin<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">sine<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int, double</td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">double</td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">tan<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">tangent<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int, double</td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">double</td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">acos<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">inverse cosine (acos)<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int, double</td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">double</td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">asin<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">inverse sine (arcsine)<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int, double</td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">double</td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">atan<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">inverse tangent (arctangent)<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int, double</td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">double</td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">sqrt<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">square root<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int, double</td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">double</td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">abs<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">absolute value<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int, double</td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int,double<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">floor<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">floor of given value<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int, double<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">random<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">random positive integer between 0 - (N-1)
+      <br>
+(where N is the given number)<br>
+      </td>
+
+
+
+      <td style="vertical-align: top;">int, double (must be &gt;= 1; double is rounded
+down)<br>
+(during runtime, 2 is used as the argument if N &lt; 1)<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+The trig functions (cos, sin, tan) assume the input is specified in degrees.<br>
+
+
+<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;"><span style="font-weight: bold;">Geometric
+expression</span> allow you
+to compare the proximity of two game objects (rectangle, triangle,
+circle, etc).&nbsp; The operators are <span style="font-style: italic;">near</span>
+and <span style="font-style: italic;">touches.</span>&nbsp;&nbsp; They
+have the following form:<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;"><br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">if (c1 touches c2)<br>
+
+
+
+
+
+
+
+
+
+{<br>
+
+
+
+
+
+
+
+
+
+&nbsp;&nbsp;&nbsp; ...<br>
+
+
+
+
+
+
+
+
+
+}<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+If the game object c1 is touching or overlapping game object c2, this
+expression returns true.&nbsp; It returns false otherwise.&nbsp;
+Specifically, if the bounding box of c1 overlaps the bounding box of
+c2, c1 is "touching" c2.<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+if (c1 near c2)<br>
+
+
+
+
+
+
+
+
+
+{<br>
+
+
+
+
+
+
+
+
+
+&nbsp;&nbsp;&nbsp; ...<br>
+
+
+
+
+
+
+
+
+
+}<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+If the game object c1 is near c2, this expression returns true.&nbsp;
+It returns false otherwise.&nbsp; Specifically, the bounding box of c1
+is increased in all directions by c1.proximity and the bounding box of
+c2 is increased in all directions by c2.proximity.&nbsp; If the
+expanded boxes overlap then c1 is "near" c2.<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<span style="color: rgb(255, 0, 0);"></span></div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<big></big>
+<hr style="width: 100%; height: 2px;"><big style="font-weight: bold;">Identifiers</big><br>
+
+
+
+
+
+
+
+
+
+<big></big><br>
+
+
+
+
+
+
+
+
+
+<big></big>
+<div style="margin-left: 40px;">Identifiers are the same as in
+C/C++.&nbsp; Must start with a-z, A-Z, _, but may also contain 0-9
+after the first character.<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<hr style="width: 100%; height: 2px;"><big style="font-weight: bold;">Comments</big><br>
+
+
+
+
+
+
+
+
+
+<big></big><br>
+
+
+
+
+
+
+
+
+
+<big></big>
+<div style="margin-left: 40px;">Comments can appear anywhere in the
+program.&nbsp; They are "//" to end of line.&nbsp; For example:<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">// this is a comment<br>
+
+
+
+
+
+
+
+
+
+int i; // this is another comment<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<span style="font-weight: bold;"></span>
+<hr style="width: 100%; height: 2px;"><big><span style="font-weight: bold;">Constants<br>
+
+
+
+
+
+
+
+
+
+</span></big>
+<div style="margin-left: 40px;"><br style="font-weight: bold;">
+
+
+
+
+
+
+
+
+
+There are four types of constants:<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;"><br>
+
+
+
+
+
+
+
+
+
+<span style="font-weight: bold;"><span style="font-weight: bold;"></span></span></div>
+
+
+
+
+
+
+
+
+
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+
+
+
+
+
+
+
+
+
+  <tbody>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Type<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top; font-weight: bold;">Example<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">int<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">42<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">double<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">3.145<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">logical<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">true, false&nbsp;&nbsp; (note:
+true and false are reserved words), they evaluated to the integers 1 (true) &amp; 0 (false)**<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">string<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+      <td style="vertical-align: top;">"hello world"<br>
+
+
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+** Just like C/C++, 0 is false and all other value is true<span style="font-weight: bold;"><span style="font-weight: bold;"><br>
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+</span></span></div>
+
+
+
+
+
+
+
+
+
+<hr style="width: 100%; height: 2px;"><big style="font-weight: bold;">Quitting
+the Program</big><br>
+
+
+
+
+
+
+
+
+
+<big></big>
+<div style="margin-left: 40px;"><br>
+
+
+
+
+
+
+
+
+
+The 'q' key exits a running gpl program (the window running the game
+must be the currently selected window).<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<big></big>
+<hr style="width: 100%; height: 2px;"><big style="font-weight: bold;">Colors</big><br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">The values range for the red, green,
+and blue attributes are from
+0.0 (none) to 1.0 (full).&nbsp; For example, (1.0, 0.0, 0.0) means that
+the
+color has full red, no green, no blue.&nbsp; This is the color red.<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+You can create colors by experimentation (guessing values for the RGB)
+or you can look them up somewhere.&nbsp; If you search the web for "RGB
+values" you will find countless charts giving the RGB values of colors.
+<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+An alternative way to specify RGB values is to use 0-255 instead of 0.0
+- 1.0.&nbsp; You can convert one of those numbers by dividing each
+element
+by 255:<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+&nbsp;&nbsp;&nbsp; Lemon:&nbsp; red = 255, green = 231, blue = 109<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+In gpl the values would be:<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">&nbsp; &nbsp; Lemon: red =
+255/255.0,&nbsp; green = 231/255.0, blue = 109/255.0<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+Make sure you use the ".0" or the expressions will be evaluated as
+integer expressions and will always have the value 0 or 1.<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;"><br>
+
+
+
+
+
+
+
+
+
+Examples:<br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+&nbsp;&nbsp;&nbsp; circle earth(x = 100, y = 100, radius = 100, red =
+0.0, blue = 1.0, green = .1);<br>
+
+
+
+
+
+
+
+
+
+&nbsp;&nbsp;&nbsp; circle sun(x = 1, y = 1, radius = 300 , red =
+255/255.0, blue = 231/255.0, green = 109/255.0);<br>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<big>
+</big><br>
+
+
+
+
+
+
+
+
+
+<hr style="width: 100%; height: 2px;"><big style="font-weight: bold;">Revision
+History</big><br>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">2/8/06: added &amp;&amp; and || to the
+table of logical operators, added documentation for the new user
+variables fields (e.g. user_int2, user_int3, ...)<br>
+
+
+
+
+
+
+1/18/07: added exit statement, changed print to take an expression,
+changed <br>
+&nbsp;block to indicate there can now be multiple
+blocks and that initialization blocks are now executed after window is
+created, added drawing_order member variable and description of how it
+works, added some description of implicit cast<br>
+
+
+
+
+4/4/07: added clarification for true and false constants<br>
+
+
+2/5/08: added section on initialization blocks, added bits/plane
+restrictions for pixmaps, added mention that trig functions expect the
+input to be degrees<br>
+
+2/7/08: added wkey<br>
+1/14/11: added mouse button and mouse move events<br>
+1/16/13: added transparent pixmaps<br>1/25/15:
+fixed typos in code examples, added discussion of touches/near and an
+object that is not visible, expanded drawing order and animation
+sections.<br>
+4/9/15: added legal operand types table to assignment operators<br>1/31/16:
+added qualifier that Animation_block can only be assigned to a
+Game_object member variable (in assignment statement section).<br>
+8/21/16: added ++ and -- to assignment.&nbsp; Added termination block.<br>
+
+</div>
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+<hr style="width: 100%; height: 2px;">Copyright (c) Tyson R. Henry 2006-2016.<br>
+
+
+
+
+
+
+
+
+
+This document may be freely copied and distributed for not-for-profit educational purpose only.<br>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 40px;">
+<div style="margin-left: 40px;"><big><br>
+
+
+
+
+
+
+
+
+
+</big>
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+</body></html>
